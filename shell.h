@@ -9,6 +9,6 @@
 
 #define BUFFER_SIZE 1024
 
-int main (int argc, char **argv, char **envp);
+void promptuser(char **envp);
 
 #endif /* _SHELL_H_ */
