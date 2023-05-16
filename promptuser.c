@@ -2,6 +2,26 @@
 
 
 void exec_command(char *arg_ptr[], char **argv, char **envp);
+void init_ptrs(char *arg_ptr[], char *buff);
+
+/**
+ * init_ptrs - function to separate string based on spaces
+ * @arg_ptr: array of pointers
+ * @buff: input string
+ */
+void init_ptrs(char *arg_ptr[], char *buff)
+{
+        int i = 0;
+
+        arg_ptr[i] = strtok(buff, " ");
+
+        while (arg_ptr[i] != NULL)
+        {
+                i++;
+                arg_ptr[i] = strtok(NULL, " ");
+        }
+}
+
 /**
  * promptuser - function that prompts the user
  * @envp: environment variable
@@ -36,6 +56,8 @@ void promptuser(char **argv, char **envp)
 		}
 
 		/* initialize array of pointers */
+		init_ptrs(arg_ptr, buff);
+
 		arg_ptr[0] = buff;
 		arg_ptr[1] = NULL;
 
