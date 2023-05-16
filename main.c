@@ -10,10 +10,9 @@
  */
 int main(int argc, char **argv, char **envp)
 {
-	(void)argv;
 	if (argc == 1)
 	{
-		promptuser(envp);
+		promptuser(argv, envp);
 	}
 	return (0);
 }

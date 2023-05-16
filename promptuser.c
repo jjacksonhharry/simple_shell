@@ -1,20 +1,25 @@
 #include "shell.h"
+
+
+void exec_command(char *arg_ptr[], char **argv, char **envp);
 /**
  * promptuser - function that prompts the user
+ * @envp: environment variable
+ * @argv: command line arguments
  */
-void promptuser(char **envp)
+void promptuser(char **argv, char **envp)
 {
-	int status, i;
-	char *buff = NULL, *av[20];
+	int i;
+	char *buff = NULL, *arg_ptr[20];
 	size_t buf_size = 0;
-	pid_t pid;
 
 	/* start an infinite loop for the prompt */
 	while (1)
 	{
-		/* print the prompt */
+		/* display the prompt */
 		printf("#cisfun$ ");
 		fflush(stdout);
+
 		/* get the line printed in the std input */
 		if (getline(&buff, &buf_size, stdin) == -1)
 		{
@@ -22,33 +27,52 @@ void promptuser(char **envp)
 			free(buff);
 			exit(1);
 		}
+
 		/* replace new line with null terminator */
 		for (i = 0; buff[i] != '\0'; i++)
 		{
 			if (buff[i] == '\n')
 				buff[i] = '\0';
 		}
+
 		/* initialize array of pointers */
-		av[0] = buff;
-		av[1] = NULL;
-		/* start child process */
-		pid = fork();
-		if (pid == -1)
+		arg_ptr[0] = buff;
+		arg_ptr[1] = NULL;
+
+		/* call a function to execute commands */
+		exec_command(arg_ptr, argv, envp);
+	}
+	free(buff);
+}
+
+/**
+ * exec_command - function to execute command
+ * @arg_ptr : an array of pointers
+ * @envp: environment variablei
+ * @argv: command line arguments
+ */
+void exec_command(char *arg_ptr[], char **argv, char **envp)
+{
+	int status;
+	pid_t pid;
+
+	/* create child process */
+	pid = fork();
+	if (pid == -1)
+	{
+		exit(1);
+	}
+	else if (pid == 0)
+	{
+		if (execve(arg_ptr[0], arg_ptr, envp) == -1)
 		{
-			free(buff);
+			printf("%s: No such file or directory\n", argv[0]);
 			exit(1);
 		}
-		if (pid == 0)
-		{
-			if (execve(av[0], av, envp) == -1)
-			{
-				printf("Error: command not found\n");
-				exit(1);
-			}
-		}
-		else
-		{
-			wait(&status);
-		}
+	}
+	else
+	{
+		/* wait for the child process to execute */
+		wait(&status);
 	}
 }
