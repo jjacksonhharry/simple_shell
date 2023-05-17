@@ -100,7 +100,6 @@ int main(void)
 				printf(":) ");
 				continue;
 			}
-	}
 
 		while (token!= NULL)
 		{
@@ -134,6 +133,7 @@ int main(void)
 				fprintf(stderr, "Command not found: %s\n", command);
 			}
 			printf(":) ");
+	}
 		free(pathCopy);
 		return (0);
 }
