@@ -11,15 +11,15 @@ void init_ptrs(char *arg_ptr[], char *buff);
  */
 void init_ptrs(char *arg_ptr[], char *buff)
 {
-        int i = 0;
+	int i = 0;
 
-        arg_ptr[i] = strtok(buff, " ");
+	arg_ptr[i] = strtok(buff, " ");
 
-        while (arg_ptr[i] != NULL)
-        {
-                i++;
-                arg_ptr[i] = strtok(NULL, " ");
-        }
+	while (arg_ptr[i] != NULL)
+	{
+		i++;
+		arg_ptr[i] = strtok(NULL, " ");
+	}
 }
 
 /**
@@ -57,9 +57,6 @@ void promptuser(char **argv, char **envp)
 
 		/* initialize array of pointers */
 		init_ptrs(arg_ptr, buff);
-
-		arg_ptr[0] = buff;
-		arg_ptr[1] = NULL;
 
 		/* call a function to execute commands */
 		exec_command(arg_ptr, argv, envp);
