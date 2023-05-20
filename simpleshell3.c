@@ -1,46 +1,71 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/wait.h>
+#include "shell.h"
 
-#define MAX_COMMAND_LENGTH 1024
-#define MAX_ARGUMENTS 64
 /**
- * pass_arguments - function that pass a a command
- * string into individual arguments
- * @command: users command
- * @arguments: arguments passed
- * Return: always 0 on success
+ * check_command - checks if command exists
+ * @command: the command to be checked
+ *
+ * Return: 1 on success 0 if failed
  */
-int pass_arguments(char *command, char **arguments)
+int check_command(char *command)
 {
-	int n;	/* n = count to keep track of the number of arguments parsed */
-	char *token = strtok(command, " \t\n");
+	char *path = getenv("PATH");
+	char *token, * pathCopy;
+	char commandPath[MAX_COMMAND_LENGTH + 1];
+	int len;
 
-	n = 0;
+	if (command == NULL)
+	{
+		return (0);
+	}
+
+	/* check if command is abolute path */
+	if (command[0] == '/')
+	{
+		if (access(command, X_OK) == 0)
+		{
+			return (1);
+		}
+	}
+
+	pathCopy = strdup(path);
+	if (pathCopy == NULL)
+	{
+		return (0);
+	}
+
+	token = strtok(pathCopy, ":");
 
 	while (token != NULL)
 	{
-		arguments[n] = token;
-		n++;
-		token = strtok(NULL, " \t\n"); /* strtok function to tokenize the command string */
-					/* delimiter is set to " \t\n" which includes space, tab, and newline characters */
-		if (n >= MAX_ARGUMENTS - 1)
-			break;
-	}
-	arguments[n] = NULL;
+		/* get path to the command */
+		len = snprintf(commandPath, sizeof(commandPath), "%s/%s", token, command);
 
-	return (n);
+		if (len >= (int)sizeof(commandPath))
+		{
+			free(pathCopy);
+			fprintf(stderr, "commmand is too long: %s\n", command);
+			return (0);
+		}
+		if (access(commandPath, X_OK) == 0)
+		{
+			/* copy the full path */
+			strcpy(command, commandPath);
+			free(pathCopy);
+			return (1);
+		}
+		token = strtok(NULL, ":");
+	}
+	free(pathCopy);
+	return (0);
 }
+
 /**
- * exec_command - function to execute command
+ * executecommand - function to execute command
  * @arg_ptr : an array of pointers
  * @envp: environment variablei
  * @argv: command line arguments
  */
-int executeCommand(char **arguments)
+int executeCommand(char **arguments, char **envp)
 {
 	int status;
 	pid_t pid;
@@ -48,7 +73,7 @@ int executeCommand(char **arguments)
 	/* checks if fork() failed to create a child process */
 	pid = fork();
 
-	if (pid < 0)
+	if (pid == -1)
 	{
 		perror("fork");
 		return -1;
@@ -56,84 +81,17 @@ int executeCommand(char **arguments)
 	/* This condition checks if the current process is the child process */
 	else if (pid == 0)
 	{
-		execvp(arguments[0], arguments);
-		perror("execvp");
-		exit(EXIT_FAILURE);
+		printf("%s\n", arguments[0]);
+		if (execve(arguments[0], arguments, envp) == -1)
+		{
+			perror("execve");
+			return (-1);
+		}
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
 		return (WEXITSTATUS(status));
 	}
-}
-/**
- * main - program entry point
- * Return: void
- */
-int main(void)
-{
-	char command[MAX_COMMAND_LENGTH];
-	char *arguments[MAX_ARGUMENTS];
-	char *path = strdup(getenv("PATH"));
-	char *pathCopy = strdup(path);
-	int commandExists = 0;
-	char *token = strtok(path, ":");
-	int exitStatus;
-
-	if (pathCopy == NULL)
-	{
-		perror("strdup");
-		return 1;
-	}
-	printf(":) ");
-
-	while (fgets(command, sizeof(command), stdin))
-	{
-		command[strcspn(command, "\n")] = '\0';
-
-		if (strcmp(command, "exit") == 0)
-		{
-			break;
-		}
-		else if (strlen(command) == 0)
-			{
-				printf(":) ");
-				continue;
-			}
-
-		while (token!= NULL)
-		{
-			char commandPath[MAX_COMMAND_LENGTH + 1];
-			int len = snprintf(commandPath, sizeof(commandPath), "%s/%s", token, command);
-
-			if (len >= (int)sizeof(commandPath))
-			{
-				fprintf(stderr, "Command path is too long: %s\n", command);
-				break;
-			}
-		if (access(commandPath, X_OK) == 0)
-		{
-			commandExists = 1;
-			break;
-		}
-		token = strtok(NULL, ":");
-		}
-		if (commandExists)
-		{
-			pass_arguments(command, arguments);
-			exitStatus = executeCommand(arguments);
-
-			if ((exitStatus == -1))
-			{
-			fprintf(stderr, "Failed to execute command: %s\n", command);
-			}
-		}
-			else
-			{
-				fprintf(stderr, "Command not found: %s\n", command);
-			}
-			printf(":) ");
-	}
-		free(pathCopy);
-		return (0);
+	return (-1);
 }
