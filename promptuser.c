@@ -1,6 +1,16 @@
 #include "shell.h"
 
 /**
+ * prompt - prompts the user for input
+ */
+void prompt(void)
+{
+	if (isatty(STDOUT_FILENO))
+	{
+		printf(":) ");
+	}
+}
+/**
  * init_ptrs - function to separate string based on spaces
  * @arg_ptr: array of pointers
  * @buff: input string

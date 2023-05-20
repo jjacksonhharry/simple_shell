@@ -1,5 +1,6 @@
 #include "shell.h"
 
+int getPath(char *command, char *pathCopy);
 /**
  * check_command - checks if command exists
  * @command: the command to be checked
@@ -9,9 +10,8 @@
 int check_command(char *command)
 {
 	char *path = getenv("PATH");
-	char *token, * pathCopy;
-	char commandPath[MAX_COMMAND_LENGTH + 1];
-	int len;
+	char *pathCopy;
+	int commExists;
 
 	if (command == NULL)
 	{
@@ -33,6 +33,24 @@ int check_command(char *command)
 		return (0);
 	}
 
+	commExists = getPath(command, pathCopy);
+
+	free(pathCopy);
+	return (commExists);
+}
+
+/**
+ * getPath - gets the path of a command and checks if valid
+ * @command: contains the users command
+ * @pathCopy: contains a copy from PATH
+ * Return: 1 if succesful and 0 if failed
+ */
+int getPath(char *command, char *pathCopy)
+{
+	char commandPath[MAX_COMMAND_LENGTH + 1];
+	char *token;
+	int len;
+
 	token = strtok(pathCopy, ":");
 
 	while (token != NULL)
@@ -42,7 +60,6 @@ int check_command(char *command)
 
 		if (len >= (int)sizeof(commandPath))
 		{
-			free(pathCopy);
 			fprintf(stderr, "commmand is too long: %s\n", command);
 			return (0);
 		}
@@ -50,20 +67,19 @@ int check_command(char *command)
 		{
 			/* copy the full path */
 			strcpy(command, commandPath);
-			free(pathCopy);
 			return (1);
 		}
 		token = strtok(NULL, ":");
 	}
-	free(pathCopy);
 	return (0);
 }
 
 /**
- * executecommand - function to execute command
- * @arg_ptr : an array of pointers
+ * executeCommand - function to execute command
+ * @arguments : an array of pointers
  * @envp: environment variablei
- * @argv: command line arguments
+ *
+ * Return: -1 if failed
  */
 int executeCommand(char **arguments, char **envp)
 {
@@ -76,7 +92,7 @@ int executeCommand(char **arguments, char **envp)
 	if (pid == -1)
 	{
 		perror("fork");
-		return -1;
+		return (-1);
 	}
 	/* This condition checks if the current process is the child process */
 	else if (pid == 0)

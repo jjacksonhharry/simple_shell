@@ -16,5 +16,6 @@ int pass_arguments(char *command, char **arguments);
 int executeCommand(char **arguments, char **envp);
 int check_command(char *command);
 void init_ptrs(char *arg_ptr[], char *buff);
+void prompt(void);
 
 #endif /* _SHELL_H_ */
