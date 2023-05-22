@@ -24,7 +24,7 @@ int main(int argc, char **argv, char **envp)
 		prompt();
 
 		/* get the user's command */
-		if (getline(&buff, &buf_size, stdin) == -1)
+		if (_getline(&buff, &buf_size, stdin) == -1)
 		{
 			free(buff);
 			exit(95);

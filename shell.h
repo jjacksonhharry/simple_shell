@@ -17,5 +17,6 @@ int executeCommand(char **arguments, char **envp);
 int check_command(char *command);
 void init_ptrs(char *arg_ptr[], char *buff);
 void prompt(void);
+ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 
 #endif /* _SHELL_H_ */
