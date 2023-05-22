@@ -1,5 +1,6 @@
 #include "shell.h"
 
+ssize_t getln(char **lineptr, FILE *stream, size_t *n);
 /**
  * _getline - implementation of the getline function
  * @lineptr: where the read text is to be stored
@@ -10,8 +11,6 @@
  */
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 {
-	size_t i;
-	char ch;
 	/* if n is 0 give it a random number */
 	if (*n == 0)
 	{
@@ -27,9 +26,27 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 			return (-1);
 		}
 	}
-	 /* loop until end of file or new line is encountered*/
+
+	return (getln(lineptr, stream, n));
+}
+
+/**
+ * getln - loops as it reads the from a stream
+ * @lineptr: points to the buffer to store the read text
+ * @stream: points to the buffer to be read
+ * @n: points to the size of the buffer to be written  into
+ *
+ * Return: number of characters read
+ */
+
+ssize_t getln(char **lineptr, FILE *stream, size_t *n)
+{
+	size_t i;
+	char ch;
+
 	for (i = 0; ch != '\n'; i++)
 	{
+		/* read the next character in the stream */
 		ch = fgetc(stream);
 		if (ch == EOF)
 		{
