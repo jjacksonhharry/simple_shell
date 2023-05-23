@@ -5,7 +5,7 @@
  */
 void prompt(void)
 {
-	if (isatty(STDOUT_FILENO))
+	if (isatty(STDIN_FILENO))
 	{
 		printf(":) ");
 	}
