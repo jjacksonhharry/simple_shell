@@ -26,6 +26,8 @@ int main(int argc, char **argv, char **envp)
 		/* get the user's command */
 		if (_getline(&buff, &buf_size, stdin) == -1)
 		{
+			if (feof(stdin))
+				break;
 			free(buff);
 			exit(95);
 		}

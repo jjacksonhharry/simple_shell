@@ -19,11 +19,11 @@ void init_ptrs(char *arg_ptr[], char *buff)
 {
 	int i = 0;
 
-	arg_ptr[i] = strtok(buff, " \t\n");
+	arg_ptr[i] = _strtok(buff, " \t\n");
 
 	while (arg_ptr[i] != NULL)
 	{
 		i++;
-		arg_ptr[i] = strtok(NULL, " \t\n");
+		arg_ptr[i] = _strtok(NULL, " \t\n");
 	}
 }

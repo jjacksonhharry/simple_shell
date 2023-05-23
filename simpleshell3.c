@@ -51,7 +51,7 @@ int getPath(char *command, char *pathCopy)
 	char *token;
 	int len;
 
-	token = strtok(pathCopy, ":");
+	token = _strtok(pathCopy, ":");
 
 	while (token != NULL)
 	{
@@ -69,7 +69,7 @@ int getPath(char *command, char *pathCopy)
 			strcpy(command, commandPath);
 			return (1);
 		}
-		token = strtok(NULL, ":");
+		token = _strtok(NULL, ":");
 	}
 	return (0);
 }
