@@ -30,13 +30,14 @@ int main(int argc, char **argv, char **envp)
 		{
 			if (feof(stdin))
 			{
-				write(1, "\n", 2);
-				break;
+				write(STDOUT_FILENO, "\n", 2);
+				free(buff);
+				exit(EXIT_SUCCESS);
 			}
 			else
 			{
 				free(buff);
-				exit(1);
+				exit(EXIT_SUCCESS);
 			}
 		}
 
