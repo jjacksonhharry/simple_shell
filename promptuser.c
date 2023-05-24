@@ -18,19 +18,19 @@ void prompt(void)
 void init_ptrs(char *arg_ptr[], char *buff)
 {
 	int i = 0;
-	char *token = _strtok(buff, " \t\n");
+	char *token = _strtok(buff, " \t\n\r");
 
 	while (token != NULL)
 	{
 		/** handle whitespace */
 		if (token[0] == '\0')
 		{
-			token = _strtok(NULL, " \t\n");
+			token = _strtok(NULL, " \t\n\r");
 			continue;
 		}
 		arg_ptr[i] = token;
 		i++;
-		token = _strtok(NULL, " \t\n");
+		token = _strtok(NULL, " \t\n\r");
 	}
 	arg_ptr[i] = NULL;
 	free(token);
