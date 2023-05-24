@@ -1,6 +1,5 @@
 #include "shell.h"
 
-void free_ptr(char *array_ptr[]);
 void exec_comms(char **arguments, char **envp, int commandExists, char **argv);
 
 /**
@@ -65,7 +64,6 @@ int main(int argc, char **argv, char **envp)
 
 		exec_comms(arguments, envp, commandExists, argv);
 	}
-	free_ptr(arguments);
 	free(buff);
 	return (0);
 }
@@ -94,18 +92,5 @@ void exec_comms(char **arguments, char **envp, int commandExists, char **argv)
 	else
 	{
 		fprintf(stderr, "Command not found\n");
-	}
-}
-/**
- * free_ptr - loops through the array of pointers freeing each memory
- * @array_ptr: the array pointer
- */
-void free_ptr(char *array_ptr[])
-{
-	int i;
-
-	for (i = 0; array_ptr[i] != NULL; i++)
-	{
-		free(array_ptr[i]);
 	}
 }

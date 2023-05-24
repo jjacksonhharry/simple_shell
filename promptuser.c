@@ -18,12 +18,20 @@ void prompt(void)
 void init_ptrs(char *arg_ptr[], char *buff)
 {
 	int i = 0;
+	char *token = _strtok(buff, " \t\n");
 
-	arg_ptr[i] = _strtok(buff, " \t\n");
-
-	while (arg_ptr[i] != NULL)
+	while (token != NULL)
 	{
+		/** handle whitespace */
+		if (token[0] == '\0')
+		{
+			token = _strtok(NULL, " \t\n");
+			continue;
+		}
+		arg_ptr[i] = token;
 		i++;
-		arg_ptr[i] = _strtok(NULL, " \t\n");
+		token = _strtok(NULL, " \t\n");
 	}
+	arg_ptr[i] = NULL;
+	free(token);
 }
