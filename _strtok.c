@@ -4,7 +4,7 @@
  * _strtok - breaks a string into a series of tokens
  * @str: the cstring containg the content to be modified
  * @delim: string containing the delimeters
-
+ *
  * Return: pointer to the first token found in the string
  */
 char *_strtok(char *str, char *delim)

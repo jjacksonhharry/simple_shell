@@ -1,6 +1,8 @@
 #include "shell.h"
 
+void free_ptr(char *array_ptr[]);
 void exec_comms(char **arguments, char **envp, int commandExists, char **argv);
+
 /**
  * main - entry point
  * @argc: argument count
@@ -12,7 +14,7 @@ void exec_comms(char **arguments, char **envp, int commandExists, char **argv);
 int main(int argc, char **argv, char **envp)
 {
 	char *arguments[MAX_ARGUMENTS], *buff = NULL;
-	int commandExists = 0;
+	int commandExists = 0, i;
 	size_t buf_size = 0;
 
 	if (argc != 1)
@@ -27,13 +29,28 @@ int main(int argc, char **argv, char **envp)
 		if (_getline(&buff, &buf_size, stdin) == -1)
 		{
 			if (feof(stdin))
+			{
+				write(1, "\n", 2);
 				break;
-			free(buff);
-			exit(95);
+			}
+			else
+			{
+				free(buff);
+				exit(1);
+			}
 		}
 
 		/* remove the newline character */
-		buff[strcspn(buff, "\n")] = '\0';
+		i = 0;
+		while (buff)
+		{
+			if (buff[i] == '\n')
+			{
+				buff[i] = '\0';
+				break;
+			}
+			i++;
+		}
 		/* initialize an array of pointers */
 		init_ptrs(arguments, buff);
 
@@ -47,6 +64,7 @@ int main(int argc, char **argv, char **envp)
 
 		exec_comms(arguments, envp, commandExists, argv);
 	}
+	free_ptr(arguments);
 	free(buff);
 	return (0);
 }
@@ -77,4 +95,16 @@ void exec_comms(char **arguments, char **envp, int commandExists, char **argv)
 		fprintf(stderr, "Command not found\n");
 	}
 }
+/**
+ * free_ptr - loops through the array of pointers freeing each memory
+ * @array_ptr: the array pointer
+ */
+void free_ptr(char *array_ptr[])
+{
+	int i;
 
+	for (i = 0; array_ptr[i] != NULL; i++)
+	{
+		free(array_ptr[i]);
+	}
+}

@@ -97,7 +97,6 @@ int executeCommand(char **arguments, char **envp)
 	/* This condition checks if the current process is the child process */
 	else if (pid == 0)
 	{
-		printf("%s\n", arguments[0]);
 		if (execve(arguments[0], arguments, envp) == -1)
 		{
 			perror("execve");

@@ -51,7 +51,9 @@ ssize_t getln(char **lineptr, FILE *stream, size_t *n)
 		if (ch == EOF)
 		{
 			if (i == 0)
+			{
 				return (-1);
+			}
 			break;
 		}
 
@@ -63,7 +65,6 @@ ssize_t getln(char **lineptr, FILE *stream, size_t *n)
 			*lineptr = realloc(*lineptr, *n);
 			if (*lineptr == NULL)
 			{
-				free(*lineptr);
 				fprintf(stderr, "Failed to reallocate memory");
 				return (-1);
 			}
