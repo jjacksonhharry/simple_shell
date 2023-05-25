@@ -44,6 +44,7 @@ int check_command(char *command)
  * getPath - gets the path of a command and checks if valid
  * @command: contains the users command
  * @pathCopy: contains a copy from PATH
+ * @commandPath: the path of the command
  * Return: 1 if succesful and 0 if failed
  */
 int getPath(char *command, char *pathCopy, char *commandPath)
