@@ -1,6 +1,6 @@
 #include "shell.h"
 
-int getPath(char *command, char *pathCopy);
+int getPath(char *command, char *pathCopy, char *commandPath);
 /**
  * check_command - checks if command exists
  * @command: the command to be checked
@@ -10,6 +10,7 @@ int getPath(char *command, char *pathCopy);
 int check_command(char *command)
 {
 	char *path = getenv("PATH");
+	char commandPath[MAX_COMMAND_LENGTH] = " ";
 	char *pathCopy;
 	int commExists;
 
@@ -33,7 +34,7 @@ int check_command(char *command)
 		return (0);
 	}
 
-	commExists = getPath(command, pathCopy);
+	commExists = getPath(command, pathCopy, commandPath);
 
 	free(pathCopy);
 	return (commExists);
@@ -45,24 +46,19 @@ int check_command(char *command)
  * @pathCopy: contains a copy from PATH
  * Return: 1 if succesful and 0 if failed
  */
-int getPath(char *command, char *pathCopy)
+int getPath(char *command, char *pathCopy, char *commandPath)
 {
-	char commandPath[MAX_COMMAND_LENGTH + 1];
 	char *token;
 	int len;
-
-	token = malloc(MAX_COMMAND_LENGTH);
-	if (token == NULL)
-		return (0);
 
 	token = _strtok(pathCopy, ":");
 
 	while (token != NULL)
 	{
 		/* get path to the command */
-		len = snprintf(commandPath, sizeof(commandPath), "%s/%s", token, command);
+		len = snprintf(commandPath, MAX_COMMAND_LENGTH, "%s/%s", token, command);
 
-		if (len >= (int)sizeof(commandPath))
+		if (len >= MAX_COMMAND_LENGTH)
 		{
 			fprintf(stderr, "commmand is too long: %s\n", command);
 			free(token);
@@ -75,6 +71,7 @@ int getPath(char *command, char *pathCopy)
 			free(token);
 			return (1);
 		}
+		free(token);
 		token = _strtok(NULL, ":");
 	}
 	free(token);

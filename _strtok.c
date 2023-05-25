@@ -9,7 +9,7 @@
  */
 char *_strtok(char *str, char *delim)
 {
-	static char *backup;/*static variable to store the remaining string */
+	static char *backup = NULL;/*to store the remaining string */
 	int i, j, delFound = 0;
 	char *newString = NULL;
 
@@ -51,7 +51,8 @@ char *_strtok(char *str, char *delim)
 	}
 	else
 	{
-		backup = malloc(strlen(str) + 1);
+		if (backup == NULL)
+			backup = malloc(strlen(str) + 1);
 		if (backup == NULL)
 		{
 			free(newString);

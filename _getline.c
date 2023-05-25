@@ -42,7 +42,7 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream)
 ssize_t getln(char **lineptr, FILE *stream, size_t *n)
 {
 	size_t i;
-	char ch;
+	char ch = '\0';
 
 	for (i = 0; ch != '\n'; i++)
 	{

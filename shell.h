@@ -10,7 +10,7 @@
 #include <fcntl.h>
 
 #define MAX_ARGUMENTS 64
-#define MAX_COMMAND_LENGTH 1024
+#define MAX_COMMAND_LENGTH 2048
 
 int pass_arguments(char *command, char **arguments);
 int executeCommand(char **arguments, char **envp);
