@@ -62,10 +62,10 @@ int main(int argc, char **argv, char **envp)
 		commandExists = check_command(arguments[0]);
 
 		exec_comms(arguments, envp, commandExists, argv);
-	}
-	for (i = 0; arguments[i] != NULL; i++)
-	{
-		free(arguments[i]);
+		for (i = 0; arguments[i] != NULL; i++)
+		{
+			free(arguments[i]);
+		}
 	}
 	free(buff);
 	return (0);

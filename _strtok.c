@@ -48,7 +48,7 @@ char *_strtok(char *str, char *delim)
 		}
 	}
 	newString[i] = '\0';
-	if (str[i] == '\0')
+	if (str[i] == '\0' && !delFound)
 	{
 		free(backup);
 		backup = NULL;
