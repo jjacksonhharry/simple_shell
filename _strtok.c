@@ -19,7 +19,10 @@ char *_strtok(char *str, char *delim)
 		return (NULL);
 	newString = malloc(strlen(str) + 1);
 	if (newString == NULL)
+	{
+		free(backup);
 		return (NULL);
+	}
 
 	/* loop through each character */
 	for (i = 0; str[i] != '\0'; i++)
@@ -47,6 +50,7 @@ char *_strtok(char *str, char *delim)
 	newString[i] = '\0';
 	if (str[i] == '\0')
 	{
+		free(backup);
 		backup = NULL;
 	}
 	else

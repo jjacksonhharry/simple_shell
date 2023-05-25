@@ -32,6 +32,6 @@ void init_ptrs(char *arg_ptr[], char *buff)
 		i++;
 		token = _strtok(NULL, " \t\n\r");
 	}
-	arg_ptr[i] = NULL;
 	free(token);
+	arg_ptr[i] = NULL;
 }
