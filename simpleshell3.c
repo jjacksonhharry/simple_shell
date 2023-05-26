@@ -62,20 +62,16 @@ int getPath(char *command, char *pathCopy, char *commandPath)
 		if (len >= MAX_COMMAND_LENGTH)
 		{
 			fprintf(stderr, "commmand is too long: %s\n", command);
-			free(token);
 			return (0);
 		}
 		if (access(commandPath, X_OK) == 0)
 		{
 			/* copy the full path */
 			strcpy(command, commandPath);
-			free(token);
 			return (1);
 		}
-		free(token);
 		token = _strtok(NULL, ":");
 	}
-	free(token);
 	return (0);
 }
 

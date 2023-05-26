@@ -50,8 +50,15 @@ int main(int argc, char **argv, char **envp)
 			}
 			i++;
 		}
+		printf("buff: %s\n", buff);
 		/* initialize an array of pointers */
 		init_ptrs(arguments, buff);
+		printf("argument[0]: %s\n", arguments[0]);
+		if (arguments[0] == NULL)
+		{
+			continue;
+		}
+
 
 		/* check if command is exit */
 		if (strcmp(arguments[0], "exit") == 0)
@@ -62,10 +69,6 @@ int main(int argc, char **argv, char **envp)
 		commandExists = check_command(arguments[0]);
 
 		exec_comms(arguments, envp, commandExists, argv);
-		for (i = 0; arguments[i] != NULL; i++)
-		{
-			free(arguments[i]);
-		}
 	}
 	free(buff);
 	return (0);
