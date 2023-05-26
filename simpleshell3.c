@@ -126,10 +126,20 @@ int handle_commands(char **command, char **environ)
 		print_environment(environ);
 		return (1);
 	}
-	if (strcmp(command[0], "cd") == 0)
+	else if (strcmp(command[0], "cd") == 0)
 	{
 		changeDir(command);
 		return (1);
+	}
+	else if (strcmp(command[0], "exit") == 0)
+	{
+		int status = 0;
+
+		if (command[1] != NULL)
+		{
+			status = atoi(command[1]);
+		}
+			exit(status);
 	}
 	return (0);
 }
