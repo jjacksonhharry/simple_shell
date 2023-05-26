@@ -58,11 +58,6 @@ int main(int argc, char **argv, char **envp)
 		}
 
 		/* check if command is exit */
-		if (strcmp(arguments[0], "exit") == 0)
-		{
-			free(buff);
-			exit(EXIT_SUCCESS);
-		}
 		if (handle_commands(&arguments[0], envp) == 1)
 		{
 			continue;

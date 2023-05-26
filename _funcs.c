@@ -16,9 +16,22 @@ int changeDir(char **commands)
 	{
 		path = getenv("HOME");
 		chdir(path);
+		setenv("PWD", path, 1);
 		return (1);
 	}
-
+	if (strcmp(commands[1], "-") == 0)
+	{
+		path = getenv("OLDPWD");
+		if (path == NULL)
+		{
+			fprintf(stderr, "cd: OLDPWD not set\n");
+			return (0);
+		}
+		chdir(path);
+		setenv("PWD", path, 1);
+		printf("%s\n", path);
+		return (1);
+	}
 	/* if there is a directory we change into it */
 	status = chdir(commands[1]);
 	if (status == -1)
@@ -26,5 +39,8 @@ int changeDir(char **commands)
 		fprintf(stderr, "%s: could not find directory\n", commands[1]);
 		return (0);
 	}
+	path = getcwd(NULL, 0);
+	setenv("PWD", path, 1);
+	free(path);
 	return (1);
 }
