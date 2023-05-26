@@ -119,11 +119,16 @@ int executeCommand(char **arguments, char **envp)
  * @environ: environment to be printed
  * Return: 0 else 1 on success
  */
-int handle_commands(char *command, char **environ)
+int handle_commands(char **command, char **environ)
 {
-	if (strcmp(command, "env") == 0)
+	if (strcmp(command[0], "env") == 0)
 	{
 		print_environment(environ);
+		return (1);
+	}
+	if (strcmp(command[0], "cd") == 0)
+	{
+		changeDir(command);
 		return (1);
 	}
 	return (0);
