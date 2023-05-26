@@ -50,10 +50,8 @@ int main(int argc, char **argv, char **envp)
 			}
 			i++;
 		}
-		printf("buff: %s\n", buff);
 		/* initialize an array of pointers */
 		init_ptrs(arguments, buff);
-		printf("argument[0]: %s\n", arguments[0]);
 		if (arguments[0] == NULL)
 		{
 			continue;

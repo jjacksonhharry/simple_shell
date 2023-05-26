@@ -10,7 +10,7 @@ int delCheck(const char *delim, char c);
  */
 char *_strtok(char *str, const char *delims)
 {
-	static char *strBackup = NULL;/*to store the remaining string */
+	static char *strBackup;/*to store the remaining string */
 	char *newString;
 
 	if (str != NULL)
@@ -22,8 +22,10 @@ char *_strtok(char *str, const char *delims)
 		return (NULL);
 
 	/* skip leading delimeters */
-	while (*strBackup != '\0' && delCheck(delims, *strBackup) == 1)
+	while ((*strBackup != '\0') && (delCheck(delims, *strBackup) == 1))
+	{
 			strBackup++;
+	}
 
 	if (*strBackup == '\0')
 	{
