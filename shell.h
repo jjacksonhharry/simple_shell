@@ -23,4 +23,6 @@ int handle_commands(char **command, char **environ);
 void print_environment(char **environ);
 int changeDir(char **commands);
 
+void exit_shell(void);
+
 #endif /* _SHELL_H_ */
