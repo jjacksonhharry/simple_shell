@@ -99,6 +99,6 @@ void exec_comms(char **arguments, char **envp, int commandExists, char **argv)
 	}
 	else
 	{
-		fprintf(stderr, "Command not found\n");
+		fprintf(stderr, "No such file or directory\n");
 	}
 }
