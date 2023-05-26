@@ -22,9 +22,9 @@ char *_strtok(char *str, const char *delims)
 		return (NULL);
 
 	/* skip leading delimeters */
-	while ((*strBackup != '\0') && (delCheck(delims, *strBackup) == 1))
+	while (*strBackup != '\0' && delCheck(delims, *strBackup) == 1)
 	{
-			strBackup++;
+		strBackup++;
 	}
 
 	if (*strBackup == '\0')
