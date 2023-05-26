@@ -131,17 +131,10 @@ int handle_commands(char **command, char **environ)
 		changeDir(command);
 		return (1);
 	}
-	else if (strcmp(command[0], "exit") == 0)
+	else
 	{
-		int status = 0;
-
-		if (command[1] != NULL)
-		{
-			status = atoi(command[1]);
-		}
-			exit(status);
+		return (0);
 	}
-	return (0);
 }
 
 /**
