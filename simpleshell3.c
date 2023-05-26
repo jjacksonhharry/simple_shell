@@ -112,13 +112,6 @@ int executeCommand(char **arguments, char **envp)
 	return (-1);
 }
 
-/**
- * exit_shell - exitshell
- */
-void exit_shell(void)
-{
-	exit(EXIT_SUCCESS);
-}
 
 /**
  * handle_commands - Function that handles built commands
@@ -128,12 +121,7 @@ void exit_shell(void)
  */
 int handle_commands(char *command, char **environ)
 {
-	if (strcmp(command, "exit") == 0)
-	{
-		exit_shell();
-		return (1);
-	}
-	else if (strcmp(command, "env") == 0)
+	if (strcmp(command, "env") == 0)
 	{
 		print_environment(environ);
 		return (1);
