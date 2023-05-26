@@ -63,12 +63,7 @@ int main(int argc, char **argv, char **envp)
 			free(buff);
 			exit(EXIT_SUCCESS);
 		}
-<<<<<<< HEAD
-
-		if (handle_commands(arguments[0], envp) == 1)
-=======
-		if (handle_commands(arguments[0], envp) == 1)
->>>>>>> ab6b763eabd0d3dc86e9121eb85acc5f0ec5daef
+		if (handle_commands(&arguments[0], envp) == 1)
 		{
 			continue;
 		}
