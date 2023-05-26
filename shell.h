@@ -19,6 +19,8 @@ void init_ptrs(char *arg_ptr[], char *buff);
 void prompt(void);
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 char *_strtok(char *str, const char *delims);
-int handle_commands(char *command, char **environ);
+int handle_commands(char **command, char **environ);
 void print_environment(char **environ);
+int changeDir(char **commands);
+
 #endif /* _SHELL_H_ */
