@@ -1,9 +1,5 @@
 #include "shell.h"
 
-void exit_shell(void)
-{
-	exit(EXIT_SUCCESS);
-}
 void exec_comms(char **arguments, char **envp, int commandExists, char **argv);
 
 /**
@@ -61,12 +57,13 @@ int main(int argc, char **argv, char **envp)
 			continue;
 		}
 
-
 		/* check if command is exit */
 		if (strcmp(arguments[0], "exit") == 0)
 		{
-			exit_shell();
+			free(buff);
+			exit(EXIT_SUCCESS);
 		}
+
 		if (handle_commands(arguments[0], envp) == 1)
 		{
 			continue;

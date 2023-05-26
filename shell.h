@@ -21,5 +21,5 @@ ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
 char *_strtok(char *str, const char *delims);
 int handle_commands(char *command, char **environ);
 void print_environment(char **environ);
-void exit_shell(void);
+
 #endif /* _SHELL_H_ */
