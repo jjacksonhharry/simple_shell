@@ -91,7 +91,6 @@ int main(int argc, char **argv, char **envp)
 		}
 
 		exec_comms(arguments, envp, commandExists, argv);
-		free(arguments[0]);
 	}
 	free(buff);
 	return (0);
@@ -117,6 +116,7 @@ void exec_comms(char **arguments, char **envp, int commandExists, char **argv)
 		{
 			fprintf(stderr, "%s: No such file exists\n", argv[0]);
 		}
+		free(arguments[0]);
 	}
 	else
 	{
