@@ -15,6 +15,7 @@ int main(int argc, char **argv, char **envp)
 	char *arguments[MAX_ARGUMENTS], *buff = NULL;
 	int commandExists = 0, i, stat;
 	size_t buf_size = 0;
+	char commandPath[MAX_COMMAND_LENGTH];
 
 	if (argc != 1)
 		return (1);
@@ -78,9 +79,19 @@ int main(int argc, char **argv, char **envp)
 			continue;
 		}
 		/* check if command exists */
-		commandExists = check_command(arguments[0]);
+		commandExists = check_command(arguments[0], commandPath);
+		if (commandExists)
+		{
+			arguments[0] = strdup(commandPath);
+			if (arguments[0] == NULL)
+			{
+				fprintf(stderr, "Failed to copy to argument\n");
+				continue;
+			}
+		}
 
 		exec_comms(arguments, envp, commandExists, argv);
+		free(arguments[0]);
 	}
 	free(buff);
 	return (0);

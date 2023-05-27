@@ -7,10 +7,9 @@ int getPath(char *command, char *pathCopy, char *commandPath);
  *
  * Return: 1 on success 0 if failed
  */
-int check_command(char *command)
+int check_command(char *command, char *commandPath)
 {
 	char *path = getenv("PATH");
-	char commandPath[MAX_COMMAND_LENGTH] = " ";
 	char *pathCopy;
 	int commExists;
 
@@ -67,7 +66,6 @@ int getPath(char *command, char *pathCopy, char *commandPath)
 		if (access(commandPath, X_OK) == 0)
 		{
 			/* copy the full path */
-			strcpy(command, commandPath);
 			return (1);
 		}
 		token = _strtok(NULL, ":");
