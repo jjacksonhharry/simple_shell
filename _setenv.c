@@ -1,9 +1,9 @@
 #include "shell.h"
 
 /**
- * _setenviron - sets the environment variable
+ * setenviron - sets the environment variable
  * @commands: a pointer to commands
- * Return 1 on success
+ * Return: 1 on success
  */
 int setenviron(char **commands)
 {
@@ -13,10 +13,9 @@ int setenviron(char **commands)
 		return (0);
 	}
 
-	
 	if (commands[2] != NULL)
 	{
-		if(setenv(commands[1], commands[2], 1) != 0)
+		if (setenv(commands[1], commands[2], 1) != 0)
 		{
 			fprintf(stderr, "Failed to setenv\n");
 			return (0);

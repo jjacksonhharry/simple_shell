@@ -4,6 +4,7 @@ int getPath(char *command, char *pathCopy, char *commandPath);
 /**
  * check_command - checks if command exists
  * @command: the command to be checked
+ * @commandPath: an array containing the full path
  *
  * Return: 1 on success 0 if failed
  */
