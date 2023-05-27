@@ -35,6 +35,14 @@ int check_command(char *command, char *commandPath)
 	}
 
 	commExists = getPath(command, pathCopy, commandPath);
+	if (commExists == 0)
+	{
+		if (access(command, X_OK) == 0)
+		{
+			strcpy(commandPath, command);
+			commExists = 1;
+		}
+	}
 
 	free(pathCopy);
 	return (commExists);
