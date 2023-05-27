@@ -135,6 +135,10 @@ int handle_commands(char **command, char **environ)
 	{
 		return (setenviron(command));
 	}
+	else if (strcmp(command[0], "unsetenv") == 0)
+	{
+		return (unsetenviron(command));
+	}
 	else
 	{
 		return (0);
