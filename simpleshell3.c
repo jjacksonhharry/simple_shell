@@ -131,6 +131,10 @@ int handle_commands(char **command, char **environ)
 		changeDir(command);
 		return (1);
 	}
+	else if (strcmp(command[0], "setenv") == 0)
+	{
+		return (setenviron(command));
+	}
 	else
 	{
 		return (0);
