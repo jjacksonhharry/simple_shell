@@ -13,7 +13,7 @@ void exec_comms(char **arguments, char **envp, int commandExists, char **argv);
 int main(int argc, char **argv, char **envp)
 {
 	char *arguments[MAX_ARGUMENTS], *buff = NULL;
-	int commandExists = 0, i;
+	int commandExists = 0, i, stat;
 	size_t buf_size = 0;
 
 	if (argc != 1)
@@ -60,8 +60,18 @@ int main(int argc, char **argv, char **envp)
 		/* check if command is exit */
 		if (strcmp(arguments[0], "exit") == 0)
 		{
-			free(buff);
-			exit(EXIT_SUCCESS);
+			if (arguments[1] != NULL)
+			{
+				stat = atoi(arguments[1]);
+				free(buff);
+				exit(stat);
+
+			}
+			else
+			{
+				free(buff);
+				exit(EXIT_SUCCESS);
+			}
 		}
 		if (handle_commands(&arguments[0], envp) == 1)
 		{
