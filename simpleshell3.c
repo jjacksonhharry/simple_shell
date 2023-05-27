@@ -24,6 +24,7 @@ int check_command(char *command, char *commandPath)
 	{
 		if (access(command, X_OK) == 0)
 		{
+			strcpy(commandPath, command);
 			return (1);
 		}
 	}
