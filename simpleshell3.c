@@ -24,6 +24,7 @@ int check_command(char *command, char *commandPath)
 	{
 		if (access(command, X_OK) == 0)
 		{
+			/* copy command path*/
 			strcpy(commandPath, command);
 			return (1);
 		}
@@ -34,8 +35,10 @@ int check_command(char *command, char *commandPath)
 	{
 		return (0);
 	}
-
+	/* check if command exists in PATH variable if it
+	   does not contain absolute path */
 	commExists = getPath(command, pathCopy, commandPath);
+	/* if it does not exist in PATH check in the current directory */
 	if (commExists == 0)
 	{
 		if (access(command, X_OK) == 0)

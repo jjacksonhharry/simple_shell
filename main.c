@@ -23,8 +23,8 @@ int main(int argc, char **argv, char **envp)
 	/* loop until user enters 'exit' */
 	while (1)
 	{
+		/* prompt user if in the interactive mode */
 		prompt();
-
 		/* get the user's command */
 		if (_getline(&buff, &buf_size, stdin) == -1)
 		{
@@ -74,12 +74,14 @@ int main(int argc, char **argv, char **envp)
 				exit(EXIT_SUCCESS);
 			}
 		}
+		/* handle built-in commands */
 		if (handle_commands(&arguments[0], envp) == 1)
 		{
 			continue;
 		}
 		/* check if command exists */
 		commandExists = check_command(arguments[0], commandPath);
+		/* if command exists store its path in arguments[0] */
 		if (commandExists)
 		{
 			arguments[0] = strdup(commandPath);
@@ -89,7 +91,7 @@ int main(int argc, char **argv, char **envp)
 				continue;
 			}
 		}
-
+		/* execute command if it exists */
 		exec_comms(arguments, envp, commandExists, argv);
 	}
 	free(buff);
