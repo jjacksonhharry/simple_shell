@@ -1,6 +1,6 @@
 #include "shell.h"
 
-void exec_comms(char **arguments, char **envp, int commandExists, char **argv);
+void exec_comms(char **arguments, char **envp, int commandExists, char **argv, int *status);
 
 /**
  * main - entry point
@@ -13,7 +13,7 @@ void exec_comms(char **arguments, char **envp, int commandExists, char **argv);
 int main(int argc, char **argv, char **envp)
 {
 	char *arguments[MAX_ARGUMENTS], *buff = NULL;
-	int commandExists = 0, i, stat;
+	int commandExists = 0, i, stat = EXIT_SUCCESS;
 	size_t buf_size = 0;
 	char commandPath[MAX_COMMAND_LENGTH];
 
@@ -64,15 +64,10 @@ int main(int argc, char **argv, char **envp)
 			if (arguments[1] != NULL)
 			{
 				stat = atoi(arguments[1]);
-				free(buff);
-				exit(stat);
 
 			}
-			else
-			{
-				free(buff);
-				exit(EXIT_SUCCESS);
-			}
+			free(buff);
+			exit(stat);
 		}
 		/* handle built-in commands */
 		if (handle_commands(&arguments[0], envp) == 1)
@@ -92,7 +87,7 @@ int main(int argc, char **argv, char **envp)
 			}
 		}
 		/* execute command if it exists */
-		exec_comms(arguments, envp, commandExists, argv);
+		exec_comms(arguments, envp, commandExists, argv, &stat);
 	}
 	free(buff);
 	return (0);
@@ -105,7 +100,7 @@ int main(int argc, char **argv, char **envp)
  * @commandExists: the status of the command
  * @argv: argument vector
  */
-void exec_comms(char **arguments, char **envp, int commandExists, char **argv)
+void exec_comms(char **arguments, char **envp, int commandExists, char **argv, int *status)
 {
 	int exitStatus;
 
@@ -117,11 +112,13 @@ void exec_comms(char **arguments, char **envp, int commandExists, char **argv)
 		if (exitStatus == -1)
 		{
 			fprintf(stderr, "%s: No such file exists\n", argv[0]);
+			*status = 2;
 		}
 		free(arguments[0]);
 	}
 	else
 	{
 		fprintf(stderr, "No such file or directory\n");
+		*status = 2;
 	}
 }
